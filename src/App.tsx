@@ -4,6 +4,8 @@ import Button from "./components/Button";
 import ListGroup from "./components/ListGroup";
 import Like from "./components/Like";
 import ExpandableText from "./components/ExpandableText";
+import Form from "./components/Form";
+import "./index.css";
 
 // import Message from './Message'
 function App() {
@@ -11,6 +13,7 @@ function App() {
   const [alertVisible, setAlertVisible] = useState(false);
   return (
     <div>
+      <Form />
       <ExpandableText maxChars={100}>
         Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus
         alias error, fuga labore quibusdam sed quasi, ipsum cupiditate
