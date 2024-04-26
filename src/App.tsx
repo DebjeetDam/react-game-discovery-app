@@ -11,7 +11,12 @@ function App() {
   const [alertVisible, setAlertVisible] = useState(false);
   return (
     <div>
-      <ExpandableText maxChars={100}>Hello World</ExpandableText>
+      <ExpandableText maxChars={100}>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus
+        alias error, fuga labore quibusdam sed quasi, ipsum cupiditate
+        consequuntur adipisci at dolore magnam. Consequuntur fugit, molestiae
+        omnis tempore recusandae nostrum!100
+      </ExpandableText>
       <Like
         onClick={() => {
           console.log("clicked");
