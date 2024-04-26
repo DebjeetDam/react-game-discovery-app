@@ -11,7 +11,7 @@ const Form = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<FormData>();
 
   console.log(errors);
@@ -52,7 +52,9 @@ const Form = () => {
           className="form-control"
         />
       </div>
-      <button className="btn btn-primary">Submit</button>
+      <button disabled={!isValid} className="btn btn-primary">
+        Submit
+      </button>
     </form>
   );
 };
