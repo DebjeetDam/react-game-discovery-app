@@ -1,5 +1,4 @@
-// import { Fragment } from "react";
-
+import "./ListGroup.css";
 import { useState } from "react";
 
 // Define interface of an object
