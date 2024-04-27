@@ -6,21 +6,22 @@
 // import ExpandableText from "./components/ExpandableText";
 // import Form from "./components/Form";
 import "./index.css";
-import ExpenseList from "./expense-tracker/components/ExpenseList";
 import { useState } from "react";
+import ExpenseList from "./expense-tracker/components/ExpenseList";
 import ExpenseFilter from "./expense-tracker/components/ExpenseFilter";
+import ExpenseForm from "./expense-tracker/components/ExpenseForm";
+
+export const categories = ["Groceries", "Utility", "Entertainment"];
 
 export const App = () => {
   //State for ExpenseFilter
-
   const [selectCategory, setSelectCategory] = useState("");
   //State for ExpenseList
-
   const [expenses, setExpenses] = useState([
-    { id: 1, description: "aaa", amount: 1, category: "Utility" },
-    { id: 2, description: "aaa", amount: 1, category: "Utility" },
-    { id: 3, description: "aaa", amount: 1, category: "Utility" },
-    { id: 4, description: "aaa", amount: 1, category: "Utility" },
+    { id: 1, description: "Sonal", amount: 1, category: "Utility" },
+    { id: 2, description: "Deb", amount: 1, category: "Utility" },
+    { id: 3, description: "Munu", amount: 1, category: "Utility" },
+    { id: 4, description: "Nunu", amount: 1, category: "Utility" },
   ]);
 
   const visibleExpenses = selectCategory
@@ -29,6 +30,9 @@ export const App = () => {
 
   return (
     <div>
+      <div className="mb-5">
+        <ExpenseForm />
+      </div>
       <div className="mb-3">
         <ExpenseFilter
           onSelectCategory={(category) => setSelectCategory(category)}
