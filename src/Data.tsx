@@ -48,10 +48,26 @@ function Data() {
     const newUser = { id: 0, name: "Debjeet" };
     setUsers([newUser, ...users]);
     axios
-      .post("https://jsonplaceholder.typicode.com/user", newUser)
+      .post("https://jsonplaceholder.typicode.com/users", newUser)
       .then(({ data: savedUser }) => {
         setUsers([savedUser, ...users]);
       })
+      .catch((err) => {
+        setError(err.message);
+        setUsers(originalUsers);
+      });
+  };
+
+  const updateUser = (user: User) => {
+    const originalUsers = [...users];
+    const updatedUser = { ...user, name: user.name + "!@!" };
+    setUsers(users.map((u) => (u.id === user.id ? updatedUser : u)));
+
+    axios
+      .patch(
+        "https://jsonplaceholder.typicode.com/users/" + user.id,
+        updatedUser
+      )
       .catch((err) => {
         setError(err.message);
         setUsers(originalUsers);
@@ -71,13 +87,21 @@ function Data() {
             key={user.id}
             className="list-group-item d-flex justify-content-between"
           >
-            {user.name}{" "}
-            <button
-              onClick={() => deletUser(user)}
-              className="btn btn-outline-danger"
-            >
-              Delete
-            </button>{" "}
+            {user.name}
+            <div>
+              <button
+                onClick={() => updateUser(user)}
+                className="btn btn-outline-secondary mx-1"
+              >
+                Update
+              </button>
+              <button
+                onClick={() => deletUser(user)}
+                className="btn btn-outline-danger"
+              >
+                Delete
+              </button>
+            </div>
           </li>
         ))}
       </ul>
