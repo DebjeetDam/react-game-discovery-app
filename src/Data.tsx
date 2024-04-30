@@ -31,6 +31,18 @@ function Data() {
     return () => controller.abort();
   }, []);
 
+  const deletUser = (user: User) => {
+    const originalUsers = [...users];
+    setUsers(users.filter((u) => u.id !== user.id));
+
+    axios
+      .delete("https://jsonplaceholder.typicode.com/user/" + user.id)
+      .catch((err) => {
+        setError(err.message);
+        setUsers(originalUsers);
+      });
+  };
+
   return (
     <>
       {error && <p className="text-danger"> {error} </p>}
@@ -42,7 +54,12 @@ function Data() {
             className="list-group-item d-flex justify-content-between"
           >
             {user.name}{" "}
-            <button className="btn btn-outline-danger">Delete</button>{" "}
+            <button
+              onClick={() => deletUser(user)}
+              className="btn btn-outline-danger"
+            >
+              Delete
+            </button>{" "}
           </li>
         ))}
       </ul>
