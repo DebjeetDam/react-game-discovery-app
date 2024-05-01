@@ -1,41 +1,34 @@
 import apiClient, { CanceledError } from "./services/api-client";
 import { useEffect, useState } from "react";
+import userService, { User } from "./services/user-service";
+
 function Data() {
   const [users, setUsers] = useState<User[]>([]);
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
 
-  interface User {
-    id: number;
-    name: string;
-  }
-
   useEffect(() => {
-    const controller = new AbortController();
-
     //get -> wait -> res /err
     setLoading(true);
-    apiClient
-      .get<User[]>("/users", {
-        signal: controller.signal,
-      })
+    const { request, cancel } = userService.getAllUser();
+    request
       .then((res) => {
-        setLoading(false);
         setUsers(res.data);
+        setLoading(false);
       })
       .catch((err) => {
         if (err instanceof CanceledError) return;
         setError(err.message);
       });
 
-    return () => controller.abort();
+    return () => cancel();
   }, []);
 
   const deletUser = (user: User) => {
     const originalUsers = [...users];
     setUsers(users.filter((u) => u.id !== user.id));
 
-    apiClient.delete("/users/" + user.id).catch((err) => {
+    userService.deleteUser(user.id).catch((err) => {
       setError(err.message);
       setUsers(originalUsers);
     });
@@ -45,8 +38,9 @@ function Data() {
     const originalUsers = [...users];
     const newUser = { id: 0, name: "Debjeet" };
     setUsers([newUser, ...users]);
-    apiClient
-      .post("/users", newUser)
+
+    userService
+      .createUser(newUser)
       .then(({ data: savedUser }) => {
         setUsers([savedUser, ...users]);
       })
@@ -61,7 +55,7 @@ function Data() {
     const updatedUser = { ...user, name: user.name + "!@!" };
     setUsers(users.map((u) => (u.id === user.id ? updatedUser : u)));
 
-    apiClient.patch("users/" + user.id, updatedUser).catch((err) => {
+    userService.updateUser(updatedUser).catch((err) => {
       setError(err.message);
       setUsers(originalUsers);
     });
